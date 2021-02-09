@@ -1,0 +1,6 @@
+[submodule "back"]
+  path = back
+  url = https://github.com/kuu18/dancersapp-back
+[submodule "front"]
+  path = front
+  url = https://github.com/kuu18/dancersapp-front
