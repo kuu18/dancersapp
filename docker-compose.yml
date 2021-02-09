@@ -33,7 +33,7 @@ services:
       context: ./front
       args:
         WORKDIR: $WORKDIR
-        API_URL: "http://localhost:$API_PORT"
+        VUE_APP_API_URL: "http://localhost:$API_PORT"
     command: npm run serve
     volumes:
       - ./front:/$WORKDIR
