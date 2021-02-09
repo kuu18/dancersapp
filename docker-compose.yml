@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    env_file:
+      - ./back/environments/db.env
+    restart: always
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  back:
+    build:
+      context: ./back
+      args:
+        WORKDIR: $WORKDIR
+    env_file:
+      - ./back/environments/db.env
+    volumes:
+      - ./back:/$WORKDIR
+    depends_on:
+      - db
+    ports:
+      - "$API_PORT:$API_PORT"
+  
+  front:
+    build:
+      context: ./front
+      args:
+        WORKDIR: $WORKDIR
+    command: npm run serve
+    volumes:
+      - ./front:/$WORKDIR
+      - node_modules:/$WORKDIR/node_modules
+    ports:
+      - "$FRONT_PORT:$FRONT_PORT"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - back
+
+volumes: 
+  mysql-data:
+  node_modules:
+
