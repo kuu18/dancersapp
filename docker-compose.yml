@@ -17,6 +17,8 @@ services:
       context: ./back
       args:
         WORKDIR: $WORKDIR
+    environment: 
+      API_DOMAIN: "localhost:$FRONT_PORT"
     env_file:
       - ./back/environments/db.env
     volumes:
@@ -31,6 +33,7 @@ services:
       context: ./front
       args:
         WORKDIR: $WORKDIR
+        API_URL: "http://localhost:$API_PORT"
     command: npm run serve
     volumes:
       - ./front:/$WORKDIR
